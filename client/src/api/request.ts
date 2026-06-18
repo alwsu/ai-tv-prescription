@@ -2,7 +2,7 @@
 // 文件名: api/request.ts
 // 作用: 统一的 uni.request 封装 - 拦截器、错误提示、Base URL
 
-const BASE_URL = 'http://localhost:8000'
+import { BASE_URL } from './config'
 
 interface RequestOptions {
   url: string

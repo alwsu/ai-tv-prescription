@@ -26,6 +26,8 @@ export const useUserStore = defineStore('user', () => {
   async function loadPreferences() {
     const res = await fetchPreferences()
     preferences.value = res
+    // 加载偏好后自动应用主题，保证 tabBar / CSS 颜色都同步
+    applyTheme(res.dark_mode)
   }
 
   // @ai-generated true 2026-06-18
@@ -68,16 +70,25 @@ export const useUserStore = defineStore('user', () => {
 
     // @ai-generated true 2026-06-18
     // 2. 同步底部原生 tabBar 颜色（pages.json 配置无法运行时修改，必须用 API）
-    try {
-      uni.setTabBarStyle({
-        color: isDark ? '#5c586e' : '#9a96a6',           // 未选中文字
-        selectedColor: isDark ? '#d4a853' : '#b8893a',   // 选中文字
-        backgroundColor: isDark ? '#0c0c1a' : '#ffffff', // 背景
-        borderStyle: isDark ? 'black' : 'white',         // 顶部分割线
-      })
-    } catch (e) {
-      // 部分端可能不支持，静默失败
+    // 用 setTimeout 确保 tabBar DOM 已挂载，否则首次启动时 setTabBarStyle 会静默失败
+    const applyTabBar = () => {
+      try {
+        uni.setTabBarStyle({
+          color: isDark ? '#5c586e' : '#9a96a6',
+          selectedColor: isDark ? '#d4a853' : '#b8893a',
+          backgroundColor: isDark ? '#0c0c1a' : '#ffffff',
+          borderStyle: isDark ? 'black' : 'white',
+        })
+      } catch (e) {
+        // 部分端可能不支持，静默失败
+      }
     }
+    // 立即尝试一次（已挂载情况）
+    applyTabBar()
+    // 100ms 后再尝试一次（首次启动 onLaunch 阶段 tabBar 还没渲染）
+    setTimeout(applyTabBar, 100)
+    // 500ms 后再补一次（极端情况兜底）
+    setTimeout(applyTabBar, 500)
   }
 
   return {
