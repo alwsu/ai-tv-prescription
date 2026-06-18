@@ -1,0 +1,35 @@
+// @ai-generated true 2026-06-18
+// 文件名: variables.scss
+// 作用: 全局 SCSS 变量 - 颜色全部改用 CSS 变量引用，支持运行时主题切换
+//      非颜色变量（圆角/字体）保持静态
+
+// 颜色变量（→ 引用 CSS var，由 App.vue 提供深色/浅色两套值）
+$bg: var(--bg);
+$bg-panel: var(--bg-panel);
+$bg-card: var(--bg-card);
+$bg-phone: var(--bg-phone);
+
+$gold: var(--gold);
+$gold-l: var(--gold-l);
+$gold-d: var(--gold-d);
+$teal: var(--teal);
+$teal-l: var(--teal-l);
+$red: var(--red);
+
+$txt: var(--txt);
+$txt-2: var(--txt-2);
+$txt-3: var(--txt-3);
+
+$bdr: var(--bdr);
+
+// 字体（静态）
+$serif: 'Playfair Display', Georgia, serif;
+
+// 圆角（静态）
+$radius-sm: 8rpx;
+$radius-md: 16rpx;
+$radius-lg: 24rpx;
+$radius-pill: 48rpx;
+
+// 阴影（静态）
+$shadow-card: 0 8rpx 40rpx rgba(0, 0, 0, 0.4);
